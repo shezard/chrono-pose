@@ -1,27 +1,32 @@
 <script lang="ts">
+    let time: number = 0;
+    let state: 'started' | 'paused' | 'clear' = 'paused';
 
-    let time = 0;
-    let state = 'paused';
+    let start = () => {
+        state = 'started';
+    };
+    let pause = () => {
+        state = 'paused';
+    };
+    let clear = () => {
+        state = 'clear';
+    };
 
-    let start = () => { state = 'started'};
-    let pause = () => { state = 'paused'};
-    let clear = () => { state = 'clear'};
-
-    let interval : number | null = null;
+    let interval: number | null = null;
 
     $: {
-        if(state == 'started' && interval == null) {
+        if (state == 'started' && interval == null) {
             interval = window.setInterval(() => {
                 time += 1;
             }, 1000);
         }
 
-        if(state == 'paused') {
+        if (state == 'paused') {
             interval && clearInterval(interval);
             interval = null;
         }
 
-        if(state == 'clear') {
+        if (state == 'clear') {
             time = 0;
             interval && clearInterval(interval);
             interval = null;
@@ -29,9 +34,10 @@
         }
     }
 
-    $: mm = Math.floor(time / 60).toString().padStart(2, '0');
+    $: mm = Math.floor(time / 60)
+        .toString()
+        .padStart(2, '0');
     $: ss = (time % 60).toString().padStart(2, '0');
-
 </script>
 
 <div>
