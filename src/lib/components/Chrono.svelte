@@ -1,6 +1,12 @@
 <script lang="ts">
+    import { id } from '$lib/imageStore';
+
+    const minute: 60 = 60;
+
     let time: number = 0;
     let state: 'started' | 'paused' | 'clear' = 'paused';
+
+    let poseDuration: number = 60;
 
     let start = () => {
         state = 'started';
@@ -18,6 +24,11 @@
         if (state == 'started' && interval == null) {
             interval = window.setInterval(() => {
                 time += 1;
+
+                if (time % poseDuration === 0) {
+                    console.log(time, poseDuration);
+                    id.next();
+                }
             }, 1000);
         }
 
@@ -40,9 +51,31 @@
     $: ss = (time % 60).toString().padStart(2, '0');
 </script>
 
-<div>
-    <button on:click={start}>Start</button>
-    <button on:click={pause}>Pause</button>
-    <button on:click={clear}>Clear</button>
+<div class="w-[400px]">
+    Pose time:
+    <label>
+        <input
+            type="radio"
+            bind:group={poseDuration}
+            name="pose-duration"
+            value={minute}
+            checked={true}
+        />
+        1 minute
+    </label>
+
+    <label>
+        <input type="radio" bind:group={poseDuration} name="pose-duration" value={3 * minute} />
+        3 minutes
+    </label>
+
+    <label>
+        <input type="radio" bind:group={poseDuration} name="pose-duration" value={10 * minute} />
+        10 minutes
+    </label>
+
+    <button class="px-2 border rounded border-gray-800" on:click={start}>Start</button>
+    <button class="px-2 border rounded border-gray-800" on:click={pause}>Pause</button>
+    <button class="px-2 border rounded border-gray-800" on:click={clear}>Clear</button>
     {mm}:{ss}
 </div>
