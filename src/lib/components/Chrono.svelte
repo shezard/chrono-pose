@@ -1,27 +1,27 @@
 <script lang="ts">
     import { id } from '$lib/imageStore';
+    import { state } from '$lib/chronoStore';
 
-    const minute: 60 = 60;
+    const minute = 60 as const;
 
-    let time: number = 0;
-    let state: 'started' | 'paused' | 'clear' = 'paused';
+    let time = 0;
 
-    let poseDuration: number = 60;
+    let poseDuration = 60;
 
     let start = () => {
-        state = 'started';
+        state.update('started');
     };
     let pause = () => {
-        state = 'paused';
+        state.update('paused');
     };
     let clear = () => {
-        state = 'clear';
+        state.update('clear');
     };
 
     let interval: number | null = null;
 
     $: {
-        if (state == 'started' && interval == null) {
+        if ($state === 'started' && interval == null) {
             interval = window.setInterval(() => {
                 time += 1;
 
@@ -32,16 +32,16 @@
             }, 1000);
         }
 
-        if (state == 'paused') {
+        if ($state === 'paused') {
             interval && clearInterval(interval);
             interval = null;
         }
 
-        if (state == 'clear') {
+        if ($state === 'clear') {
             time = 0;
             interval && clearInterval(interval);
             interval = null;
-            state = 'paused';
+            state.update('paused');
         }
     }
 
