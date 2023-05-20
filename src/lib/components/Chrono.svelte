@@ -26,7 +26,6 @@
                 time += 1;
 
                 if (time % poseDuration === 0) {
-                    console.log(time, poseDuration);
                     id.next();
                 }
             }, 1000);
@@ -74,8 +73,10 @@
         10 minutes
     </label>
 
-    <button class="px-2 border rounded border-gray-800" on:click={start}>Start</button>
-    <button class="px-2 border rounded border-gray-800" on:click={pause}>Pause</button>
-    <button class="px-2 border rounded border-gray-800" on:click={clear}>Clear</button>
+    <button class="px-2 border rounded border-gray-800" on:click={start}>
+        <span class="{ $state === 'started' ? 'animate-ping' : '' }">⏵</span> Start
+    </button>
+    <button class="px-2 border rounded border-gray-800" on:click={pause}>⏸ Pause</button>
+    <button class="px-2 border rounded border-gray-800" on:click={clear}>⏹ Clear</button>
     {mm}:{ss}
 </div>
