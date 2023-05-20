@@ -1,6 +1,7 @@
 import { writable } from 'svelte/store';
+import shuffle from 'lodash/shuffle';
 
-const ids: string[] = [
+const ids: string[] = shuffle([
     '1532334836699-88e90d97c8fe',
     '1623473579390-cf3cc21de626',
     '1616698856743-c269f82fecd9',
@@ -48,7 +49,7 @@ const ids: string[] = [
     '1536416992256-1c91ce9ccdfd',
     '1531727991582-cfd25ce79613',
     '1506707710000-189cf4c7f908'
-];
+]);
 
 let step = 0;
 
