@@ -1,10 +1,29 @@
 import { writable } from 'svelte/store';
 
-const { subscribe, set } = writable('paused');
+const createState = function() {
+    const { subscribe, set } = writable('paused');
 
-export const state = {
-    subscribe,
-    update: (state: 'started' | 'paused' | 'clear') => {
-        set(state);
+    return {
+        subscribe,
+        update: (state: 'started' | 'paused' | 'clear') => {
+            set(state);
+        }
     }
-};
+}
+
+export const state = createState();
+
+
+const createCompletionRate = function() {
+    const { subscribe, set } = writable(0);
+
+    return {
+        subscribe,
+        update: (completionRate : number) => {
+            set(completionRate);
+        }
+    }
+}
+
+
+export const completionRate = createCompletionRate();

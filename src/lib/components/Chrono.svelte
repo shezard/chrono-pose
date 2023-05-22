@@ -1,6 +1,6 @@
 <script lang="ts">
     import { imageId } from '$lib/imageStore';
-    import { state } from '$lib/chronoStore';
+    import { state, completionRate } from '$lib/chronoStore';
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
     const minute = 60 as const;
@@ -25,6 +25,8 @@
         if ($state === 'started' && interval == null) {
             interval = window.setInterval(() => {
                 time += 1;
+
+                completionRate.update((time % poseDuration) / poseDuration);
 
                 if (time % poseDuration === 0) {
                     imageId.next();
