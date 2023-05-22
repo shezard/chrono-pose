@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { id } from '$lib/imageStore';
+    import { imageId } from '$lib/imageStore';
     import { state } from '$lib/chronoStore';
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
@@ -27,7 +27,7 @@
                 time += 1;
 
                 if (time % poseDuration === 0) {
-                    id.next();
+                    imageId.next();
                 }
             }, 1000);
         }
@@ -53,15 +53,21 @@
 
 <div class="py-4 flex justify-around">
     <RadioGroup>
-        <RadioItem bind:group={poseDuration} name="pose-duration" value={minute}>(1 minute)</RadioItem>
-        <RadioItem bind:group={poseDuration} name="pose-duration" value={3 * minute}>(3 minutes)</RadioItem>
-        <RadioItem bind:group={poseDuration} name="pose-duration" value={10 * minute}>(10 minutes)</RadioItem>
+        <RadioItem bind:group={poseDuration} name="pose-duration" value={minute}
+            >(1 minute)</RadioItem
+        >
+        <RadioItem bind:group={poseDuration} name="pose-duration" value={3 * minute}
+            >(3 minutes)</RadioItem
+        >
+        <RadioItem bind:group={poseDuration} name="pose-duration" value={10 * minute}
+            >(10 minutes)</RadioItem
+        >
     </RadioGroup>
 </div>
 
 <div class="flex justify-around pb-4">
     <button class="px-2 rounded variant-ringed-primary" on:click={start}>
-        <span class="{ $state === 'started' ? 'animate-ping' : '' }">⏵</span> Start
+        <span class={$state === 'started' ? 'animate-ping' : ''}>⏵</span> Start
     </button>
     <button class="px-2 rounded variant-ringed-primary" on:click={pause}>⏸ Pause</button>
     <button class="px-2 rounded variant-ringed-primary" on:click={clear}>⏹ Clear</button>
