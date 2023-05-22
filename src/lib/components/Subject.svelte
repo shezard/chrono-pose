@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { imageId } from '$lib/imageStore';
-    import { state } from '$lib/chronoStore';
+    import { imageId } from '$lib/store';
+    import { applicationState } from '$lib/store';
 
-    $: paused = $state === 'paused';
+    $: paused = $applicationState === 'paused';
 </script>
 
 <img

@@ -1,5 +1,5 @@
 <script>
-    import { completionRate } from "$lib/chronoStore";
+    import { completionRate } from "$lib/store";
 
 </script>
 
@@ -9,6 +9,5 @@
     .timing-bar {
         background: #fff;
         height: 2px;
-        transition: width 1s linear;
     }
 </style>

@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { imageId } from '$lib/imageStore';
-    import { state, completionRate } from '$lib/chronoStore';
+    import { imageId } from '$lib/store';
+    import { applicationState, completionRate } from '$lib/store';
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
     const minute = 60 as const;
@@ -10,19 +10,19 @@
     let poseDuration = 60;
 
     let start = () => {
-        state.update('started');
+        applicationState.update('started');
     };
     let pause = () => {
-        state.update('paused');
+        applicationState.update('paused');
     };
     let clear = () => {
-        state.update('clear');
+        applicationState.update('clear');
     };
 
     let interval: number | null = null;
 
     $: {
-        if ($state === 'started' && interval == null) {
+        if ($applicationState === 'started' && interval == null) {
             interval = window.setInterval(() => {
                 time += 1;
 
@@ -34,16 +34,17 @@
             }, 1000);
         }
 
-        if ($state === 'paused') {
+        if ($applicationState === 'paused') {
             interval && clearInterval(interval);
             interval = null;
         }
 
-        if ($state === 'clear') {
+        if ($applicationState === 'clear') {
             time = 0;
+            completionRate.update(0)
             interval && clearInterval(interval);
             interval = null;
-            state.update('paused');
+            applicationState.update('paused');
         }
     }
 
@@ -69,7 +70,7 @@
 
 <div class="flex justify-around pb-4">
     <button class="px-2 rounded variant-ringed-primary" on:click={start}>
-        <span class={$state === 'started' ? 'animate-ping' : ''}>
+        <span class={$applicationState === 'started' ? 'animate-ping' : ''}>
             <i class="mi mi-play"></i>
         </span> Start
     </button>
@@ -79,5 +80,7 @@
     <button class="px-2 rounded variant-ringed-primary" on:click={clear}>
         <i class="mi mi-refresh"></i> Clear
     </button>
-    {mm}:{ss}
+    <span class="px-2">
+        {mm}:{ss}
+    </span>
 </div>
