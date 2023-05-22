@@ -1,6 +1,7 @@
 <script lang="ts">
     import { id } from '$lib/imageStore';
     import { state } from '$lib/chronoStore';
+    import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
     const minute = 60 as const;
 
@@ -50,33 +51,19 @@
     $: ss = (time % 60).toString().padStart(2, '0');
 </script>
 
-<div class="w-[400px]">
-    Pose time:
-    <label>
-        <input
-            type="radio"
-            bind:group={poseDuration}
-            name="pose-duration"
-            value={minute}
-            checked={true}
-        />
-        1 minute
-    </label>
+<div class="py-4 flex justify-around">
+    <RadioGroup>
+        <RadioItem bind:group={poseDuration} name="pose-duration" value={minute}>(1 minute)</RadioItem>
+        <RadioItem bind:group={poseDuration} name="pose-duration" value={3 * minute}>(3 minutes)</RadioItem>
+        <RadioItem bind:group={poseDuration} name="pose-duration" value={10 * minute}>(10 minutes)</RadioItem>
+    </RadioGroup>
+</div>
 
-    <label>
-        <input type="radio" bind:group={poseDuration} name="pose-duration" value={3 * minute} />
-        3 minutes
-    </label>
-
-    <label>
-        <input type="radio" bind:group={poseDuration} name="pose-duration" value={10 * minute} />
-        10 minutes
-    </label>
-
-    <button class="px-2 border rounded border-gray-800" on:click={start}>
+<div class="flex justify-around pb-4">
+    <button class="px-2 rounded variant-ringed-primary" on:click={start}>
         <span class="{ $state === 'started' ? 'animate-ping' : '' }">⏵</span> Start
     </button>
-    <button class="px-2 border rounded border-gray-800" on:click={pause}>⏸ Pause</button>
-    <button class="px-2 border rounded border-gray-800" on:click={clear}>⏹ Clear</button>
+    <button class="px-2 rounded variant-ringed-primary" on:click={pause}>⏸ Pause</button>
+    <button class="px-2 rounded variant-ringed-primary" on:click={clear}>⏹ Clear</button>
     {mm}:{ss}
 </div>
