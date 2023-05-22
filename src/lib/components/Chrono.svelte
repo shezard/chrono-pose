@@ -69,9 +69,15 @@
 
 <div class="flex justify-around pb-4">
     <button class="px-2 rounded variant-ringed-primary" on:click={start}>
-        <span class={$state === 'started' ? 'animate-ping' : ''}>⏵</span> Start
+        <span class={$state === 'started' ? 'animate-ping' : ''}>
+            <i class="mi mi-play"></i>
+        </span> Start
     </button>
-    <button class="px-2 rounded variant-ringed-primary" on:click={pause}>⏸ Pause</button>
-    <button class="px-2 rounded variant-ringed-primary" on:click={clear}>⏹ Clear</button>
+    <button class="px-2 rounded variant-ringed-primary" on:click={pause}>
+        <i class="mi mi-pause"></i> Pause
+    </button>
+    <button class="px-2 rounded variant-ringed-primary" on:click={clear}>
+        <i class="mi mi-refresh"></i> Clear
+    </button>
     {mm}:{ss}
 </div>

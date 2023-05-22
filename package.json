@@ -41,6 +41,7 @@
     },
     "type": "module",
     "dependencies": {
-        "lodash": "^4.17.21"
+        "lodash": "^4.17.21",
+        "mono-icons": "^1.3.1"
     }
 }

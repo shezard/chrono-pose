@@ -1,4 +1,4 @@
-# Chrono : Timer for pose drawing
+# Chrono Pose : Timer for pose drawing
 
 ## Developing
 
