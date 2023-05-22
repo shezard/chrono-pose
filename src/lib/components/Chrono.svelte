@@ -1,14 +1,13 @@
 <script lang="ts">
     import {
+        applicationState,
         poseDuration,
         ellapsedTime,
-        imageId,
         startTime,
         offsetEllapsedTime,
         mm,
         ss
     } from '$lib/store';
-    import { applicationState, completionRate } from '$lib/store';
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
     const minute = 60 as const;
@@ -27,8 +26,6 @@
         startTime.set(0);
         offsetEllapsedTime.set(0);
     };
-
-    $: time = ~~($ellapsedTime / 1000);
 
     $: {
         if ($applicationState === 'clear') {
