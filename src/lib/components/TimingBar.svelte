@@ -1,6 +1,5 @@
 <script>
-    import { completionRate } from "$lib/store";
-
+    import { completionRate } from '$lib/store';
 </script>
 
 <div class="timing-bar" style="width:{$completionRate * 400}px" />

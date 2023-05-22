@@ -1,68 +1,51 @@
 <script lang="ts">
-    import { imageId } from '$lib/store';
+    import {
+        poseDuration,
+        ellapsedTime,
+        imageId,
+        startTime,
+        offsetEllapsedTime,
+        mm,
+        ss
+    } from '$lib/store';
     import { applicationState, completionRate } from '$lib/store';
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
     const minute = 60 as const;
 
-    let time = 0;
-
-    let poseDuration = 60;
-
     let start = () => {
         applicationState.update('started');
+        startTime.set(+new Date());
     };
     let pause = () => {
         applicationState.update('paused');
+        offsetEllapsedTime.set($ellapsedTime);
+        startTime.set(0);
     };
     let clear = () => {
         applicationState.update('clear');
+        startTime.set(0);
+        offsetEllapsedTime.set(0);
     };
 
-    let interval: number | null = null;
+    $: time = ~~($ellapsedTime / 1000);
 
     $: {
-        if ($applicationState === 'started' && interval == null) {
-            interval = window.setInterval(() => {
-                time += 1;
-
-                completionRate.update((time % poseDuration) / poseDuration);
-
-                if (time % poseDuration === 0) {
-                    imageId.next();
-                }
-            }, 1000);
-        }
-
-        if ($applicationState === 'paused') {
-            interval && clearInterval(interval);
-            interval = null;
-        }
-
         if ($applicationState === 'clear') {
-            time = 0;
-            completionRate.update(0)
-            interval && clearInterval(interval);
-            interval = null;
             applicationState.update('paused');
         }
     }
-
-    $: mm = Math.floor(time / 60)
-        .toString()
-        .padStart(2, '0');
-    $: ss = (time % 60).toString().padStart(2, '0');
 </script>
 
 <div class="py-4 flex justify-around">
     <RadioGroup>
-        <RadioItem bind:group={poseDuration} name="pose-duration" value={minute}
+        <RadioItem bind:group={$poseDuration} name="pose-duration" value={minute}
             >(1 minute)</RadioItem
         >
-        <RadioItem bind:group={poseDuration} name="pose-duration" value={3 * minute}
+        <RadioItem bind:group={$poseDuration} name="pose-duration" value={3 * minute}
             >(3 minutes)</RadioItem
         >
-        <RadioItem bind:group={poseDuration} name="pose-duration" value={10 * minute}
+        <RadioItem bind:group={$poseDuration} name="pose-duration" value={10 * minute}
             >(10 minutes)</RadioItem
         >
     </RadioGroup>
@@ -71,16 +54,16 @@
 <div class="flex justify-around pb-4">
     <button class="px-2 rounded variant-ringed-primary" on:click={start}>
         <span class={$applicationState === 'started' ? 'animate-ping' : ''}>
-            <i class="mi mi-play"></i>
+            <i class="mi mi-play" />
         </span> Start
     </button>
     <button class="px-2 rounded variant-ringed-primary" on:click={pause}>
-        <i class="mi mi-pause"></i> Pause
+        <i class="mi mi-pause" /> Pause
     </button>
     <button class="px-2 rounded variant-ringed-primary" on:click={clear}>
-        <i class="mi mi-refresh"></i> Clear
+        <i class="mi mi-refresh" /> Clear
     </button>
     <span class="px-2">
-        {mm}:{ss}
+        {$mm}:{$ss}
     </span>
 </div>
