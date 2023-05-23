@@ -1,8 +1,6 @@
-
 import { browser } from '$app/environment';
 
 function makeRaf() {
-
     // eslint-disable-next-line
     let raf = (fn: FrameRequestCallback) => {
         return 0;

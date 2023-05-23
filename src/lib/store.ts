@@ -1,5 +1,5 @@
 import { writable, readable, derived, type Readable } from 'svelte/store';
-import { raf, caf } from '$lib/utils'
+import { raf, caf } from '$lib/utils';
 import { data } from '$lib/data';
 
 const createApplicationState = function () {
@@ -8,7 +8,7 @@ const createApplicationState = function () {
     return {
         subscribe,
         update: (applicationState: 'started' | 'paused' | 'clear') => {
-            if(applicationState === 'clear') {
+            if (applicationState === 'clear') {
                 imageId.next();
                 applicationState = 'paused';
             }
@@ -59,7 +59,7 @@ export const ellapsedTime = derived(
     [currentTime, startTime, offsetEllapsedTime],
     ([$currentTime, $startTime, $offsetEllapsedTime]) => {
         if ($startTime === 0) {
-            return 0;
+            return $offsetEllapsedTime;
         }
 
         return $offsetEllapsedTime + $currentTime - $startTime;
@@ -68,7 +68,7 @@ export const ellapsedTime = derived(
 
 export const poseDuration = writable(60);
 
-const secondTiming : Readable<number> = derived(
+const secondTiming: Readable<number> = derived(
     [applicationState, ellapsedTime, offsetEllapsedTime],
     ([$applicationState, $ellapsedTime, $offsetEllapsedTime], set) => {
         let t = $ellapsedTime / 1000;
@@ -81,7 +81,7 @@ const secondTiming : Readable<number> = derived(
     }
 );
 
-const milliSecondTiming : Readable<number> = derived(
+const milliSecondTiming: Readable<number> = derived(
     [applicationState, ellapsedTime, offsetEllapsedTime],
     ([$applicationState, $ellapsedTime, $offsetEllapsedTime], set) => {
         let t = $ellapsedTime;
@@ -100,14 +100,16 @@ export const mm = derived(secondTiming, ($secondTiming) => {
         .padStart(2, '0');
 });
 
-export const ss = derived([secondTiming, poseDuration], ([$secondTiming, $poseDuration]) => {
+export const ss = derived(
+    [secondTiming, poseDuration, applicationState],
+    ([$secondTiming, $poseDuration, $applicationState]) => {
+        if ($applicationState === 'started' && Math.floor($secondTiming % $poseDuration) === 0) {
+            imageId.next();
+        }
 
-    if (Math.floor($secondTiming) % $poseDuration === 0) {
-        imageId.next();
+        return ($secondTiming % 60).toString().padStart(2, '0');
     }
-
-    return ($secondTiming % 60).toString().padStart(2, '0');
-});
+);
 
 export const completionRate = derived(
     [milliSecondTiming, poseDuration],

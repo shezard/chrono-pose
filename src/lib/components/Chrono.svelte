@@ -7,19 +7,24 @@
         offsetEllapsedTime,
         mm,
         ss,
-
         imageId
-
     } from '$lib/store';
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
     const minute = 60 as const;
 
     let start = () => {
+        if ($applicationState === 'started') {
+            return;
+        }
         applicationState.update('started');
         startTime.set(+new Date());
     };
+
     let pause = () => {
+        if ($applicationState === 'paused') {
+            return;
+        }
         applicationState.update('paused');
         offsetEllapsedTime.set($ellapsedTime);
         startTime.set(0);
