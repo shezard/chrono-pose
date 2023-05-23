@@ -5,12 +5,14 @@
     $: paused = $applicationState === 'paused';
 </script>
 
-<img
-    class="rounded-t"
-    class:paused
-    src="https://images.unsplash.com/photo-{$imageId}?w=400&q=80"
-    alt=""
-/>
+{#if $imageId}
+    <img
+        class="rounded-t"
+        class:paused
+        src="https://images.unsplash.com/photo-{$imageId}?w=400&q=80"
+        alt=""
+    />
+{/if}
 
 <style>
     .paused {

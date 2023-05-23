@@ -1,19 +1,6 @@
-import { writable, readable, derived } from 'svelte/store';
-import { browser } from '$app/environment';
-import { data } from './data';
-
-let raf = (fn: FrameRequestCallback) => {
-    return 0;
-};
-
-let caf = (number: number) => {
-    // no-op
-};
-
-if (browser) {
-    raf = requestAnimationFrame;
-    caf = cancelAnimationFrame;
-}
+import { writable, readable, derived, type Readable } from 'svelte/store';
+import { raf, caf } from '$lib/utils'
+import { data } from '$lib/data';
 
 const createApplicationState = function () {
     const { subscribe, set } = writable('paused');
@@ -21,12 +8,35 @@ const createApplicationState = function () {
     return {
         subscribe,
         update: (applicationState: 'started' | 'paused' | 'clear') => {
+            if(applicationState === 'clear') {
+                imageId.next();
+                applicationState = 'paused';
+            }
             set(applicationState);
         }
     };
 };
 
 export const applicationState = createApplicationState();
+
+const createImageId = function () {
+    const imageIds: string[] = data;
+
+    let step = 0;
+
+    const { subscribe, set } = writable(imageIds[step]);
+
+    return {
+        subscribe,
+        next: () => {
+            step++;
+            step = step % imageIds.length;
+            set(imageIds[step]);
+        }
+    };
+};
+
+export const imageId = createImageId();
 
 const currentTime = readable(0, (set) => {
     let rafId: number;
@@ -56,26 +66,9 @@ export const ellapsedTime = derived(
     }
 );
 
-const createImageId = function () {
-    const imageIds: string[] = data;
+export const poseDuration = writable(60);
 
-    let step = 0;
-
-    const { subscribe, set } = writable(imageIds[step]);
-
-    return {
-        subscribe,
-        next: () => {
-            step++;
-            step = step % imageIds.length;
-            set(imageIds[step]);
-        }
-    };
-};
-
-export const imageId = createImageId();
-
-export const secondTiming = derived(
+const secondTiming : Readable<number> = derived(
     [applicationState, ellapsedTime, offsetEllapsedTime],
     ([$applicationState, $ellapsedTime, $offsetEllapsedTime], set) => {
         let t = $ellapsedTime / 1000;
@@ -88,25 +81,37 @@ export const secondTiming = derived(
     }
 );
 
+const milliSecondTiming : Readable<number> = derived(
+    [applicationState, ellapsedTime, offsetEllapsedTime],
+    ([$applicationState, $ellapsedTime, $offsetEllapsedTime], set) => {
+        let t = $ellapsedTime;
+
+        if ($applicationState === 'paused') {
+            t = $offsetEllapsedTime;
+        }
+
+        set(t);
+    }
+);
+
 export const mm = derived(secondTiming, ($secondTiming) => {
     return Math.floor($secondTiming / 60)
         .toString()
         .padStart(2, '0');
 });
 
-export const ss = derived(secondTiming, ($secondTiming) => {
+export const ss = derived([secondTiming, poseDuration], ([$secondTiming, $poseDuration]) => {
+
+    if (Math.floor($secondTiming) % $poseDuration === 0) {
+        imageId.next();
+    }
+
     return ($secondTiming % 60).toString().padStart(2, '0');
 });
 
-export const poseDuration = writable(60);
-
 export const completionRate = derived(
-    [secondTiming, poseDuration],
-    ([$secondTiming, $poseDuration]) => {
-        if (Math.floor($secondTiming) % $poseDuration === 0) {
-            imageId.next();
-        }
-
-        return ($secondTiming % $poseDuration) / $poseDuration;
+    [milliSecondTiming, poseDuration],
+    ([$milliSecondTiming, $poseDuration]) => {
+        return (($milliSecondTiming / 1000) % $poseDuration) / $poseDuration;
     }
 );

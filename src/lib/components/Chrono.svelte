@@ -6,7 +6,10 @@
         startTime,
         offsetEllapsedTime,
         mm,
-        ss
+        ss,
+
+        imageId
+
     } from '$lib/store';
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
@@ -23,15 +26,9 @@
     };
     let clear = () => {
         applicationState.update('clear');
-        startTime.set(0);
         offsetEllapsedTime.set(0);
+        startTime.set(0);
     };
-
-    $: {
-        if ($applicationState === 'clear') {
-            applicationState.update('paused');
-        }
-    }
 </script>
 
 <div class="py-4 flex justify-around">
