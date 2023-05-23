@@ -9,7 +9,7 @@ const createApplicationState = function () {
         subscribe,
         update: (applicationState: 'started' | 'paused' | 'clear') => {
             if (applicationState === 'clear') {
-                imageId.next();
+                image.next();
                 applicationState = 'paused';
             }
             set(applicationState);
@@ -19,24 +19,24 @@ const createApplicationState = function () {
 
 export const applicationState = createApplicationState();
 
-const createImageId = function () {
-    const imageIds: string[] = data;
+const createImage = function () {
+    const images = data;
 
     let step = 0;
 
-    const { subscribe, set } = writable(imageIds[step]);
+    const { subscribe, set } = writable(images[step]);
 
     return {
         subscribe,
         next: () => {
             step++;
-            step = step % imageIds.length;
-            set(imageIds[step]);
+            step = step % images.length;
+            set(images[step]);
         }
     };
 };
 
-export const imageId = createImageId();
+export const image = createImage();
 
 const currentTime = readable(0, (set) => {
     let rafId: number;
@@ -102,7 +102,7 @@ export const mm = derived(secondTiming, ($secondTiming) => {
 
 export const ss = derived([secondTiming, poseDuration], ([$secondTiming, $poseDuration]) => {
     if ($secondTiming > 0 && $secondTiming % $poseDuration === 0) {
-        imageId.next();
+        image.next();
     }
 
     return ($secondTiming % 60).toString().padStart(2, '0');

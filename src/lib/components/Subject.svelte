@@ -1,17 +1,21 @@
 <script lang="ts">
-    import { imageId } from '$lib/store';
+    import { image } from '$lib/store';
     import { applicationState } from '$lib/store';
 
     $: paused = $applicationState === 'paused';
 </script>
 
-{#if $imageId}
-    <img
-        class="rounded-t"
-        class:paused
-        src="https://images.unsplash.com/photo-{$imageId}?w=400&q=80"
-        alt=""
-    />
+{#if $image}
+    <div class:paused>
+        <img class="rounded-t" src={$image.url} alt={$image.alt} />
+        <a
+            href="https://unsplash.com/@{$image.author}"
+            class="text-xs inline-block px-2 py-2"
+            target="_blank"
+        >
+            Credit: @{$image.author}
+        </a>
+    </div>
 {/if}
 
 <style>
