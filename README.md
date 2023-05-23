@@ -21,16 +21,20 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
-# To add data from unsplash random API
+## Adding data from unsplash random API
 
-# Get an access token from unsplash api
+### Get an access token from unsplash api
 
-Register here: https://unsplash.com/developers
+> Register here: https://unsplash.com/developers
 
-# Get random data
+### Get random data
 
+```bash
 curl "https://api.unsplash.com/photos/random?count=30&orientation=portrait&query=portrait" --header "Authorization: Client-ID <Your unsplash access token>" > random.json
+```
 
-# Filter out relevant data
+### Filter out relevant data
 
+```bash
 cat random.json | jq '[.[] | {alt: .alt_description, url: .urls.small, author: .user.username}]' > data.json
+```
