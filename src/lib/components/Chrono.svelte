@@ -6,8 +6,7 @@
         startTime,
         offsetEllapsedTime,
         mm,
-        ss,
-        imageId
+        ss
     } from '$lib/store';
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 

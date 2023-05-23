@@ -62,7 +62,7 @@ export const ellapsedTime = derived(
             return $offsetEllapsedTime;
         }
 
-        return $offsetEllapsedTime + $currentTime - $startTime;
+        return $offsetEllapsedTime + Math.max(0, $currentTime - $startTime);
     }
 );
 
@@ -100,16 +100,13 @@ export const mm = derived(secondTiming, ($secondTiming) => {
         .padStart(2, '0');
 });
 
-export const ss = derived(
-    [secondTiming, poseDuration, applicationState],
-    ([$secondTiming, $poseDuration, $applicationState]) => {
-        if ($applicationState === 'started' && Math.floor($secondTiming % $poseDuration) === 0) {
-            imageId.next();
-        }
-
-        return ($secondTiming % 60).toString().padStart(2, '0');
+export const ss = derived([secondTiming, poseDuration], ([$secondTiming, $poseDuration]) => {
+    if ($secondTiming > 0 && $secondTiming % $poseDuration === 0) {
+        imageId.next();
     }
-);
+
+    return ($secondTiming % 60).toString().padStart(2, '0');
+});
 
 export const completionRate = derived(
     [milliSecondTiming, poseDuration],
