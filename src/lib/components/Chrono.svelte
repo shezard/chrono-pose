@@ -52,14 +52,14 @@
 <div class="flex justify-around pb-4">
     <button class="px-2 rounded variant-ringed-primary" on:click={start}>
         <span class={$applicationState === 'started' ? 'animate-ping' : ''}>
-            <i class="mi mi-play" />
+            <i class="mi-play" />
         </span> Start
     </button>
     <button class="px-2 rounded variant-ringed-primary" on:click={pause}>
-        <i class="mi mi-pause" /> Pause
+        <i class="mi-pause" /> Pause
     </button>
     <button class="px-2 rounded variant-ringed-primary" on:click={clear}>
-        <i class="mi mi-refresh" /> Clear
+        <i class="mi-refresh" /> Clear
     </button>
     <span class="px-2">
         {$mm}:{$ss}
