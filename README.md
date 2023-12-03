@@ -29,16 +29,16 @@ You can preview the production build with `npm run preview`.
 
 ### Get random data
 
+Setup an .env file with
 ```bash
-curl "https://api.unsplash.com/photos/random?count=300&orientation=portrait&query=portrait" --header "Authorization: Client-ID evI57W4Xz6AaEJmRaysFJoumPO9lBVLgXo3NxHQcmuA" > random.json
+    ACCESS_KEY=<YOUR UNSPLASH ACCESS KEY>
 ```
 
-
-### Filter out relevant data
-
+Then run
 ```bash
-cat random.json | jq '[.[] | {alt: .alt_description, url: .urls.small, author: .user.username}]' > data.json
+    just get_data <theme>
 ```
+
 
 ### Uniquify data in src/lib/data.json
 ```bash
