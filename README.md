@@ -38,3 +38,10 @@ curl "https://api.unsplash.com/photos/random?count=30&orientation=portrait&query
 ```bash
 cat random.json | jq '[.[] | {alt: .alt_description, url: .urls.small, author: .user.username}]' > data.json
 ```
+
+### Uniquify data in src/lib/data.json
+```bash
+node unique.mjs > src/lib/data.json
+```
+
+TODO: path shouldn't be hard coded
