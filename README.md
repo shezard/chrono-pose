@@ -30,8 +30,9 @@ You can preview the production build with `npm run preview`.
 ### Get random data
 
 ```bash
-curl "https://api.unsplash.com/photos/random?count=30&orientation=portrait&query=portrait" --header "Authorization: Client-ID <Your unsplash access token>" > random.json
+curl "https://api.unsplash.com/photos/random?count=300&orientation=portrait&query=portrait" --header "Authorization: Client-ID evI57W4Xz6AaEJmRaysFJoumPO9lBVLgXo3NxHQcmuA" > random.json
 ```
+
 
 ### Filter out relevant data
 
