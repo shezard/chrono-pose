@@ -30,17 +30,19 @@ You can preview the production build with `npm run preview`.
 ### Get random data
 
 Setup an .env file with
+
 ```bash
     ACCESS_KEY=<YOUR UNSPLASH ACCESS KEY>
 ```
 
 Then run
+
 ```bash
     just get_data <theme>
 ```
 
-
 ### Uniquify data in src/lib/data.json
+
 ```bash
 node unique.mjs > src/lib/data.json
 ```

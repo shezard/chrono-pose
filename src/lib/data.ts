@@ -1,4 +1,4 @@
-import { shuffle } from 'lodash';
+import shuffle from 'lodash/shuffle';
 import { browser } from '$app/environment';
 import json from '$lib/data.json';
 

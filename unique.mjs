@@ -7,4 +7,3 @@ const indexedData = data.reduce((indexedData, item) => {
 }, {});
 
 console.log(JSON.stringify(Object.values(indexedData), null, 4));
-
