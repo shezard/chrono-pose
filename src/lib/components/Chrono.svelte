@@ -8,6 +8,7 @@
         mm,
         ss
     } from '$lib/store';
+    import { animate } from '$lib/utils';
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
     const minute = 60 as const;
@@ -16,22 +17,28 @@
         if ($applicationState === 'started') {
             return;
         }
-        applicationState.update('started');
-        startTime.set(+new Date());
+        animate(() => {
+            applicationState.update('started');
+            startTime.set(+new Date());
+        });
     };
 
     let pause = () => {
         if ($applicationState === 'paused') {
             return;
         }
-        applicationState.update('paused');
-        offsetEllapsedTime.set($ellapsedTime);
-        startTime.set(0);
+        animate(() => {
+            applicationState.update('paused');
+            offsetEllapsedTime.set($ellapsedTime);
+            startTime.set(0);
+        });
     };
     let clear = () => {
-        applicationState.update('clear');
-        offsetEllapsedTime.set(0);
-        startTime.set(0);
+        animate(() => {
+            applicationState.update('clear');
+            offsetEllapsedTime.set(0);
+            startTime.set(0);
+        });
     };
 </script>
 

@@ -1,5 +1,13 @@
 import { browser } from '$app/environment';
 
+export function animate(cb : () => void) {
+    if(!document.startViewTransition) {
+        cb();
+        return;
+    }
+    document.startViewTransition(cb);
+}
+
 function makeRaf() {
     // eslint-disable-next-line
     let raf = (fn: FrameRequestCallback) => {
