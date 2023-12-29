@@ -1,5 +1,5 @@
 import { writable, readable, derived, type Readable } from 'svelte/store';
-import { raf, caf } from '$lib/utils';
+import { raf, caf, animate } from '$lib/utils';
 import { data } from '$lib/data';
 
 const createApplicationState = function () {
@@ -66,7 +66,20 @@ export const ellapsedTime = derived(
     }
 );
 
-export const poseDuration = writable(60);
+const createPoseDuration = function () {
+    const { subscribe, set } = writable(60);
+
+    return {
+        subscribe,
+        set: (seconds: number) => {
+            animate(() => {
+                set(seconds);
+            })
+        }
+    };
+};
+
+export const poseDuration = createPoseDuration();
 
 const secondTiming: Readable<number> = derived(
     [applicationState, ellapsedTime, offsetEllapsedTime],
