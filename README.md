@@ -21,6 +21,15 @@ npm run build
 
 You can preview the production build with `npm run preview`.
 
+## Maintenance
+
+Keep deps updated
+
+```bash
+npx npm-check-update
+```
+
+
 ## Adding data from unsplash random API
 
 ### Get an access token from unsplash api
@@ -47,4 +56,8 @@ Then run
 node unique.mjs > src/lib/data.json
 ```
 
-TODO: path shouldn't be hard coded
+### TODO
+
+[ ] Path shouldn't be hard coded
+[ ] Drawing them should be handled in theme.json file
+[ ] UI should support themes
