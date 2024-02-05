@@ -26,7 +26,8 @@ You can preview the production build with `npm run preview`.
 Keep deps updated
 
 ```bash
-npx npm-check-update
+npx npm-check-updates -u
+npm install
 ```
 
 
