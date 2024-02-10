@@ -48,17 +48,11 @@ Setup an .env file with
 Then run
 
 ```bash
-    just get_data <theme>
-```
-
-### Uniquify data in src/lib/data.json
-
-```bash
-node unique.mjs > src/lib/data.json
+    just build <theme>
 ```
 
 ### TODO
 
 [ ] Path shouldn't be hard coded
-[ ] Drawing them should be handled in theme.json file
+[ ] Drawing them should be handled in data/<theme>.json file
 [ ] UI should support themes
