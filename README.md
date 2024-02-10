@@ -52,6 +52,6 @@ Then run
 
 ### TODO
 
-[ ] Path shouldn't be hard coded
-[ ] Drawing them should be handled in data/<theme>.json file
-[ ] UI should support themes
+[ ] Add more theme
+[ ] Add theme search
+[ ] Add localstorage to recall time spent on a give image ?
