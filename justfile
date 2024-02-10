@@ -2,7 +2,7 @@ set dotenv-load := true
 
 init theme:
     #!/bin/bash
-    test -f ./data/{{theme}}.json || echo '[]' > ./data/{{theme}}.json
+    test -f ./src/data/{{theme}}.json || echo '[]' > ./src/data/{{theme}}.json
 
 get_data theme:
     #!/bin/bash
@@ -16,7 +16,7 @@ make_unique theme:
     import { readFileSync } from 'node:fs';
     import { promisify } from 'node:util';
     import { exec } from 'node:child_process';
-    import existingData from './data/{{theme}}.json' assert { type: 'json' };
+    import existingData from './src/data/{{theme}}.json' assert { type: 'json' };
 
     const pexec = promisify(exec);
 
@@ -34,4 +34,4 @@ make_unique theme:
 
 build theme: (init theme)
     #!/bin/bash
-    just make_unique {{theme}} > ./data/{{theme}}-tmp.json && mv ./data/{{theme}}-tmp.json ./data/{{theme}}.json
+    just make_unique {{theme}} > ./src/data/{{theme}}-tmp.json && mv ./src/data/{{theme}}-tmp.json ./src/data/{{theme}}.json

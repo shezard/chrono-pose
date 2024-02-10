@@ -1,7 +1,7 @@
 import { browser } from '$app/environment';
 
-export function animate(cb : () => void) {
-    if(!document.startViewTransition) {
+export function animate(cb: () => void) {
+    if (!document.startViewTransition) {
         cb();
         return;
     }

@@ -1,6 +1,23 @@
 import { writable, readable, derived, type Readable } from 'svelte/store';
 import { raf, caf, animate } from '$lib/utils';
-import { data } from '$lib/data';
+import { get } from 'svelte/store';
+
+const themeFiles = import.meta.glob('../data/*.json');
+const themeData: Record<string, object> = {};
+
+function formatPath(path: string) {
+    return path.replace('../data/', '').replace('.json', '');
+}
+
+await Promise.all(
+    Object.entries(themeFiles).map(async ([path, content]) => {
+        const imported = await content();
+        themeData[formatPath(path)] = imported.default;
+    })
+);
+
+export const themes = writable<string[]>(Object.keys(themeFiles).map(formatPath));
+export const currentTheme = writable(get(themes)[0]);
 
 const createApplicationState = function () {
     const { subscribe, set } = writable('paused');
@@ -19,19 +36,23 @@ const createApplicationState = function () {
 
 export const applicationState = createApplicationState();
 
-const createImage = function () {
-    const images = data;
+const images = derived<object[]>([currentTheme], ([$currentTheme]) => {
+    return themeData[$currentTheme];
+});
 
+const createImage = function () {
     let step = 0;
 
-    const { subscribe, set } = writable(images[step]);
+    console.log(get(images));
+
+    const { subscribe, set } = writable(get(images)[step]);
 
     return {
         subscribe,
         next: () => {
             step++;
-            step = step % images.length;
-            set(images[step]);
+            step = step % get(images).length;
+            set(get(images)[step]);
         }
     };
 };
@@ -74,7 +95,7 @@ const createPoseDuration = function () {
         set: (seconds: number) => {
             animate(() => {
                 set(seconds);
-            })
+            });
         }
     };
 };

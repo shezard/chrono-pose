@@ -30,7 +30,6 @@ npx npm-check-updates -u
 npm install
 ```
 
-
 ## Adding data from unsplash random API
 
 ### Get an access token from unsplash api
