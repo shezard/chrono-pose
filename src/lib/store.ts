@@ -17,7 +17,7 @@ await Promise.all(
 );
 
 export const themes = writable<string[]>(Object.keys(themeFiles).map(formatPath));
-export const currentTheme = writable(get(themes)[0]);
+export const currentTheme = writable('portrait');
 
 const createApplicationState = function () {
     const { subscribe, set } = writable('paused');
