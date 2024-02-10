@@ -1,18 +1,14 @@
 set dotenv-load := true
 
+init theme:
+    #!/bin/bash
+    test -f ./data/{{theme}}.json || echo '[]' > ./data/{{theme}}.json
+
 get_data theme:
     #!/bin/bash
     curl "https://api.unsplash.com/photos/random?count=100&orientation=portrait&query={{theme}}" \
         --header "Authorization: Client-ID $ACCESS_KEY" | \
         jq '[.[] | {alt: .alt_description, url: .urls.small, author: .user.username}]'
-
-get_test theme:
-    #!/bin/bash
-    echo -e '[{\n
-        "alt": "brown and gray houses",\n
-        "url": "https://images.unsplash.com/photo-1575065413697-c30c41266187?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w0NTIwNzl8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MDc1ODEyMTF8&ixlib=rb-4.0.3&q=80&w=400",\n
-        "author": "cajeo"\n
-    }]'
 
 make_unique theme:
     #!/usr/bin/env bash
@@ -36,6 +32,6 @@ make_unique theme:
 
     console.log(JSON.stringify(Object.values(indexedData), null, 4));
 
-build theme:
+build theme: (init theme)
     #!/bin/bash
     just make_unique {{theme}} > ./data/{{theme}}-tmp.json && mv ./data/{{theme}}-tmp.json ./data/{{theme}}.json
