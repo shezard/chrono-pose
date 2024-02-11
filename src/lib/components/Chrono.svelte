@@ -42,8 +42,8 @@
     };
 </script>
 
-<div class="py-4 flex justify-around">
-    <RadioGroup>
+<div class="p-4 flex justify-between">
+    <RadioGroup class="w-full">
         <RadioItem bind:group={$poseDuration} name="pose-duration" value={minute}
             >(1 minute)</RadioItem
         >
@@ -56,7 +56,7 @@
     </RadioGroup>
 </div>
 
-<div class="flex justify-around pb-4">
+<div class="flex justify-between pb-4 px-4">
     <button class="px-2 rounded variant-ringed" on:click={start}>
         <span class={$applicationState === 'started' ? 'animate-ping' : ''}>
             <i class="mi-play" />
@@ -68,7 +68,7 @@
     <button class="px-2 rounded variant-ringed" on:click={clear}>
         <i class="mi-refresh" /> Clear
     </button>
-    <span class="px-2">
+    <span class="px-2 rounded variant-ringed">
         {$mm}:{$ss}
     </span>
 </div>
