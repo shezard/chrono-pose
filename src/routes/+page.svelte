@@ -5,8 +5,8 @@
     import Menu from '$lib/components/Menu.svelte';
 </script>
 
-<div class="w-full flex justify-center">
-    <div class="columns-1 flex flex-col justify-center w-[400px] overflow-y-hidden">
+<div class="w-screen flex justify-center">
+    <div class="columns-1 flex flex-col justify-center mx-auto overflow-y-hidden">
         <header>
             <Menu />
             <Subject />
