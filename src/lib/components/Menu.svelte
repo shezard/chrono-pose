@@ -22,7 +22,7 @@
     <div class:isOpen class="hidden">
         <RadioGroup flexDirection="flex-col">
             {#each $themes as theme}
-                <RadioItem bind:group={$currentTheme} name="pose-duration" value={theme} on:click={closeMenu}>
+                <RadioItem bind:group={$currentTheme} name="pose-duration" class="!text-left" value={theme} on:click={closeMenu}>
                     <span class="capitalize">{theme}</span>
                 </RadioItem>
             {/each}
