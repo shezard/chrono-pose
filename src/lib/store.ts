@@ -38,16 +38,15 @@ export const applicationState = createApplicationState();
 
 const createStep = function () {
 
-    const { subscribe, update } = writable(0);
+    const length = themeData[get(currentTheme)].length;
+    const { subscribe, update } = writable(~~(Math.random() * length));
 
     return {
         subscribe,
         next: () => {
-            update((step) => {
+            update(() => {
                 const length = themeData[get(currentTheme)].length;
-                step++;
-                step = step % length;
-                return step
+                return ~~(Math.random() * length)
             });
         }
     };
