@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { currentTheme, step, themes } from '$lib/store';
+    import { currentTheme, step, stepNumber, themes } from '$lib/store';
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
     let isOpen = false;
@@ -14,9 +14,11 @@
     }
 </script>
 
-<div class="absolute z-10 p-4 gap-2 flex flex-col items-start">
+<div class="absolute z-10 p-4 gap-2 flex flex-col ">
     <button class="px-2 rounded variant-filled" on:click={toggleMenu}>
-        <i class="mi-menu" /> <span class="capitalize">{$currentTheme}</span>
+        <i class="mi-menu" />
+        <span class="capitalize">{$currentTheme}</span>
+        <span class="text-xs">({$step}/{$stepNumber})</span>
     </button>
 
     <div class:isOpen class="hidden">

@@ -54,10 +54,15 @@ const createStep = function () {
 
 export const step = createStep();
 
+export const stepNumber = derived([currentTheme], ([$currentTheme]) => {
+    const images = themeData[$currentTheme]
+    return images.length;
+});
+
 export const image = derived([currentTheme, step], ([$currentTheme, $step]) => {
     const images = themeData[$currentTheme]
     return images[$step];
-});;
+});
 
 const currentTime = readable(0, (set) => {
     let rafId: number;
