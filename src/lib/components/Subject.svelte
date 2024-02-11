@@ -7,7 +7,7 @@
 
 {#if $image}
     <div class:paused>
-        <img class="rounded-t" src={$image.url} alt={$image.alt} />
+        <img src={$image.url} alt={$image.alt} />
         <a
             href="https://unsplash.com/@{$image.author}"
             class="text-xs inline-block px-2 py-2"
