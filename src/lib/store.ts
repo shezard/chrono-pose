@@ -26,7 +26,7 @@ const createApplicationState = function () {
         subscribe,
         update: (applicationState: 'started' | 'paused' | 'clear') => {
             if (applicationState === 'clear') {
-                image.next();
+                step.next();
                 applicationState = 'paused';
             }
             set(applicationState);
@@ -36,26 +36,29 @@ const createApplicationState = function () {
 
 export const applicationState = createApplicationState();
 
-const images = derived([currentTheme], ([$currentTheme]) => {
-    return themeData[$currentTheme];
-});
+const createStep = function () {
 
-const createImage = function () {
-    let step = 0;
-
-    const { subscribe, set } = writable(get(images)[step]);
+    const { subscribe, update } = writable(0);
 
     return {
         subscribe,
         next: () => {
-            step++;
-            step = step % get(images).length;
-            set(get(images)[step]);
+            update((step) => {
+                const length = themeData[get(currentTheme)].length;
+                step++;
+                step = step % length;
+                return step
+            });
         }
     };
 };
 
-export const image = createImage();
+export const step = createStep();
+
+export const image = derived([currentTheme, step], ([$currentTheme, $step]) => {
+    const images = themeData[$currentTheme]
+    return images[$step];
+});;
 
 const currentTime = readable(0, (set) => {
     let rafId: number;
@@ -134,7 +137,7 @@ export const mm = derived(secondTiming, ($secondTiming) => {
 
 export const ss = derived([secondTiming, poseDuration], ([$secondTiming, $poseDuration]) => {
     if ($secondTiming > 0 && $secondTiming % $poseDuration === 0) {
-        image.next();
+        step.next();
     }
 
     return ($secondTiming % 60).toString().padStart(2, '0');

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { currentTheme, image, themes } from '$lib/store';
+    import { currentTheme, step, themes } from '$lib/store';
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
     let isOpen = false;
@@ -10,7 +10,7 @@
 
     function closeMenu() {
         isOpen = false;
-        image.next();
+        step.next();
     }
 </script>
 
