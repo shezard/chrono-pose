@@ -6,7 +6,7 @@
 </script>
 
 <div class="w-screen flex justify-center">
-    <div class="columns-1 flex flex-col justify-center mx-auto overflow-y-hidden">
+    <div class="columns-1 flex flex-col justify-center w-screen overflow-y-hidden">
         <header>
             <Menu />
             <Subject />
