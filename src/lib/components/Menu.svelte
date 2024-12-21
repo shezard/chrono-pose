@@ -2,7 +2,7 @@
     import { currentTheme, step, stepNumber, themes } from '$lib/store';
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
-    let isOpen = false;
+    let isOpen = $state(false);
 
     function toggleMenu() {
         isOpen = !isOpen;
@@ -15,7 +15,7 @@
 </script>
 
 <div class="absolute z-10 p-4 gap-2 flex flex-col ">
-    <button class="px-2 rounded variant-filled" on:click={toggleMenu}>
+    <button class="px-2 rounded variant-filled" onclick={toggleMenu}>
         <i class="mi-menu"></i>
         <span class="capitalize">{$currentTheme}</span>
         <span class="text-xs">({$step}/{$stepNumber})</span>

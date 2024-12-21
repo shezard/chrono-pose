@@ -2,8 +2,14 @@ import { writable, readable, derived, type Readable } from 'svelte/store';
 import { raf, caf, animate } from '$lib/utils';
 import { get } from 'svelte/store';
 
+type Image = {
+    alt: string,
+    url: string,
+    author: string,
+}
+
 const themeFiles = import.meta.glob('../data/*.json');
-const themeData: Record<string, object[]> = {};
+const themeData: Record<string, Image[]> = {};
 
 function formatPath(path: string) {
     return path.replace('../data/', '').replace('.json', '');

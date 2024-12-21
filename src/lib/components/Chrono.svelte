@@ -57,15 +57,15 @@
 </div>
 
 <div class="flex justify-between pb-4 px-4">
-    <button class="px-2 rounded variant-ringed" on:click={start}>
+    <button class="px-2 rounded variant-ringed" onclick={start}>
         <span class={$applicationState === 'started' ? 'animate-ping' : ''}>
             <i class="mi-play"></i>
         </span> Start
     </button>
-    <button class="px-2 rounded variant-ringed" on:click={pause}>
+    <button class="px-2 rounded variant-ringed" onclick={pause}>
         <i class="mi-pause"></i> Pause
     </button>
-    <button class="px-2 rounded variant-ringed" on:click={clear}>
+    <button class="px-2 rounded variant-ringed" onclick={clear}>
         <i class="mi-refresh"></i> Clear
     </button>
     <span class="px-2 rounded variant-ringed">

@@ -2,7 +2,7 @@
     import { image } from '$lib/store';
     import { applicationState } from '$lib/store';
 
-    $: paused = $applicationState === 'paused';
+    let paused = $derived($applicationState === 'paused');
 </script>
 
 {#if $image}
