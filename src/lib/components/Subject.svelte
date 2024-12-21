@@ -1,19 +1,18 @@
 <script lang="ts">
-    import { image } from '$lib/store';
-    import { applicationState } from '$lib/store';
+    let { image, applicationState } = $props();
 
-    let paused = $derived($applicationState === 'paused');
+    let paused = $derived(applicationState.value === 'paused');
 </script>
 
-{#if $image}
+{#if image}
     <div class:paused>
-        <img src={$image.url} alt={$image.alt} class="mx-auto"/>
+        <img src={image.url} alt={image.alt} class="mx-auto"/>
         <a
-            href="https://unsplash.com/@{$image.author}"
+            href="https://unsplash.com/@{image.author}"
             class="text-xs inline-block px-2 py-2"
             target="_blank"
         >
-            Credit: @{$image.author}
+            Credit: @{image.author}
         </a>
     </div>
 {/if}

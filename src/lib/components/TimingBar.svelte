@@ -1,8 +1,25 @@
 <script>
-    import { completionRate } from '$lib/store';
+
+    const {applicationState, poseDuration, ellapsedTime, offsetEllapsedTime} = $props();
+
+
+    let milliSecondTiming = $derived.by(
+        () => {
+
+            let t = ellapsedTime;
+
+            if (applicationState.value === 'paused') {
+                t = offsetEllapsedTime;
+            }
+
+            return t;
+        }
+    );
+
+    let completionRate = $derived(((milliSecondTiming / 1000) % poseDuration) / poseDuration);
 </script>
 
-<div class="timing-bar" style="width:{$completionRate * 400}px"></div>
+<div class="timing-bar" style="width:{completionRate * 400}px"></div>
 
 <style>
     .timing-bar {
