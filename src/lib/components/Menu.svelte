@@ -16,7 +16,7 @@
 
 <div class="absolute z-10 p-4 gap-2 flex flex-col ">
     <button class="px-2 rounded variant-filled" on:click={toggleMenu}>
-        <i class="mi-menu" />
+        <i class="mi-menu"></i>
         <span class="capitalize">{$currentTheme}</span>
         <span class="text-xs">({$step}/{$stepNumber})</span>
     </button>
