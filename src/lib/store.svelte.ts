@@ -1,8 +1,8 @@
 type Image = {
-    alt: string,
-    url: string,
-    author: string,
-}
+    alt: string;
+    url: string;
+    author: string;
+};
 
 const themeFiles = import.meta.glob('../data/*.json');
 const themeData: Record<string, Image[]> = {};
@@ -20,25 +20,26 @@ await Promise.all(
 
 export const themes = $state(Object.keys(themeFiles).map(formatPath));
 
-export const createStep = function (getCurrentTheme : () => string) {
-
+export const createStep = function (getCurrentTheme: () => string) {
     const currentTheme = getCurrentTheme();
     const length = themeData[currentTheme].length;
     let step = $state(~~(Math.random() * length));
 
     return {
-        get value() { return step},
+        get value() {
+            return step;
+        },
         get stepNumber() {
-            const images = themeData[currentTheme]
+            const images = themeData[currentTheme];
             return images.length;
         },
         get image() {
-            const images = themeData[currentTheme]
+            const images = themeData[currentTheme];
             return images[step];
         },
         next: () => {
             const length = themeData[currentTheme].length;
-            step = ~~(Math.random() * length)
+            step = ~~(Math.random() * length);
         }
     };
 };

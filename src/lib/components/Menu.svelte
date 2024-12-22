@@ -2,7 +2,7 @@
     import { themes } from '$lib/store.svelte';
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
-    let { currentTheme = $bindable(), step} = $props();
+    let { currentTheme = $bindable(), step } = $props();
 
     let isOpen = $state(false);
 
@@ -16,7 +16,7 @@
     }
 </script>
 
-<div class="absolute z-10 p-4 gap-2 flex flex-col ">
+<div class="absolute z-10 p-4 gap-2 flex flex-col">
     <button class="px-2 rounded variant-filled" onclick={toggleMenu}>
         <i class="mi-menu"></i>
         <span class="capitalize">{currentTheme}</span>
@@ -26,7 +26,13 @@
     <div class:isOpen class="hidden">
         <RadioGroup flexDirection="flex-col">
             {#each themes as theme}
-                <RadioItem bind:group={currentTheme} name="pose-duration" class="!text-left" value={theme} on:click={closeMenu}>
+                <RadioItem
+                    bind:group={currentTheme}
+                    name="pose-duration"
+                    class="!text-left"
+                    value={theme}
+                    on:click={closeMenu}
+                >
                     <span class="capitalize">{theme}</span>
                 </RadioItem>
             {/each}

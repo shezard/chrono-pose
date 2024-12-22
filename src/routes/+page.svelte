@@ -11,7 +11,7 @@
     let step = $state();
     $effect(() => {
         step = createStep(() => currentTheme);
-    })
+    });
 
     let applicationState = $state('paused');
     let poseDuration = $state(60);
@@ -32,26 +32,31 @@
         return () => caf(rafId);
     });
 
-
     let ellapsedTime = $derived.by(() => {
-            if (startTime === 0) {
-                return offsetEllapsedTime;
-            }
-
-            return offsetEllapsedTime + Math.max(0, currentTime - startTime);
+        if (startTime === 0) {
+            return offsetEllapsedTime;
         }
-    );
+
+        return offsetEllapsedTime + Math.max(0, currentTime - startTime);
+    });
 </script>
 
 {#if step}
     <div class="w-screen flex justify-center">
         <div class="columns-1 flex flex-col justify-center w-screen overflow-y-hidden">
             <header>
-                <Menu bind:currentTheme={currentTheme} {step} />
+                <Menu bind:currentTheme {step} />
                 <Subject image={step.image} {applicationState} />
                 <TimingBar {poseDuration} {applicationState} {ellapsedTime} {offsetEllapsedTime} />
             </header>
-            <Chrono bind:applicationState={applicationState} {step} {ellapsedTime} bind:offsetEllapsedTime={offsetEllapsedTime} bind:poseDuration={poseDuration} bind:startTime={startTime} />
+            <Chrono
+                bind:applicationState
+                {step}
+                {ellapsedTime}
+                bind:offsetEllapsedTime
+                bind:poseDuration
+                bind:startTime
+            />
         </div>
     </div>
 {/if}

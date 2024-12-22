@@ -1,21 +1,26 @@
 <script lang="ts">
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
-    let {step, applicationState = $bindable(), poseDuration = $bindable(), ellapsedTime, offsetEllapsedTime = $bindable(), startTime = $bindable()} = $props();
+    let {
+        step,
+        applicationState = $bindable(),
+        poseDuration = $bindable(),
+        ellapsedTime,
+        offsetEllapsedTime = $bindable(),
+        startTime = $bindable()
+    } = $props();
 
     const minute = 60 as const;
 
-    let secondTiming = $derived.by(
-        () => {
-            let t = ellapsedTime / 1000;
+    let secondTiming = $derived.by(() => {
+        let t = ellapsedTime / 1000;
 
-            if (applicationState === 'paused') {
-                t = offsetEllapsedTime / 1000;
-            }
-
-            return Math.floor(t);
+        if (applicationState === 'paused') {
+            t = offsetEllapsedTime / 1000;
         }
-    );
+
+        return Math.floor(t);
+    });
 
     let ss = $derived.by(() => {
         if (secondTiming > 0 && secondTiming % poseDuration === 0) {
@@ -25,7 +30,8 @@
         return (secondTiming % 60).toString().padStart(2, '0');
     });
 
-    let mm = $derived(Math.floor(secondTiming / 60)
+    let mm = $derived(
+        Math.floor(secondTiming / 60)
             .toString()
             .padStart(2, '0')
     );

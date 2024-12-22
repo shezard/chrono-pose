@@ -1,20 +1,15 @@
 <script>
+    const { applicationState, poseDuration, ellapsedTime, offsetEllapsedTime } = $props();
 
-    const {applicationState, poseDuration, ellapsedTime, offsetEllapsedTime} = $props();
+    let milliSecondTiming = $derived.by(() => {
+        let t = ellapsedTime;
 
-
-    let milliSecondTiming = $derived.by(
-        () => {
-
-            let t = ellapsedTime;
-
-            if (applicationState === 'paused') {
-                t = offsetEllapsedTime;
-            }
-
-            return t;
+        if (applicationState === 'paused') {
+            t = offsetEllapsedTime;
         }
-    );
+
+        return t;
+    });
 
     let completionRate = $derived(((milliSecondTiming / 1000) % poseDuration) / poseDuration);
 </script>
