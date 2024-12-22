@@ -1,5 +1,3 @@
-import { animate } from '$lib/utils';
-
 type Image = {
     alt: string,
     url: string,
@@ -22,21 +20,6 @@ await Promise.all(
 
 export const themes = $state(Object.keys(themeFiles).map(formatPath));
 
-export const createApplicationState = function (step) {
-    let applicationState = $state('paused');
-
-    return {
-        get value() { return applicationState },
-        update: (nextApplicationState: 'started' | 'paused' | 'clear') => {
-            if (applicationState === 'clear') {
-                step.next();
-                applicationState = 'paused';
-            }
-            applicationState = nextApplicationState;
-        }
-    };
-};
-
 export const createStep = function (getCurrentTheme : () => string) {
 
     const currentTheme = getCurrentTheme();
@@ -56,19 +39,6 @@ export const createStep = function (getCurrentTheme : () => string) {
         next: () => {
             const length = themeData[currentTheme].length;
             step = ~~(Math.random() * length)
-        }
-    };
-};
-
-export const createPoseDuration = function () {
-    let poseDuration = $state(60);
-
-    return {
-        get value() { return poseDuration },
-        set: (seconds: number) => {
-            animate(() => {
-                poseDuration = seconds
-            });
         }
     };
 };

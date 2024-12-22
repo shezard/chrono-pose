@@ -1,11 +1,9 @@
 <script lang="ts">
     let { image, applicationState } = $props();
-
-    let paused = $derived(applicationState.value === 'paused');
 </script>
 
 {#if image}
-    <div class:paused>
+    <div class:paused={applicationState === 'paused'}>
         <img src={image.url} alt={image.alt} class="mx-auto"/>
         <a
             href="https://unsplash.com/@{image.author}"

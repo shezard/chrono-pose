@@ -8,7 +8,7 @@
 
             let t = ellapsedTime;
 
-            if (applicationState.value === 'paused') {
+            if (applicationState === 'paused') {
                 t = offsetEllapsedTime;
             }
 

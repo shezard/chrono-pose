@@ -1,8 +1,7 @@
 <script lang="ts">
-    import { animate } from '$lib/utils';
     import { RadioGroup, RadioItem } from '@skeletonlabs/skeleton';
 
-    let {step, applicationState, poseDuration = $bindable(), ellapsedTime, offsetEllapsedTime = $bindable(), startTime = $bindable()} = $props();
+    let {step, applicationState = $bindable(), poseDuration = $bindable(), ellapsedTime, offsetEllapsedTime = $bindable(), startTime = $bindable()} = $props();
 
     const minute = 60 as const;
 
@@ -10,7 +9,7 @@
         () => {
             let t = ellapsedTime / 1000;
 
-            if (applicationState.value === 'paused') {
+            if (applicationState === 'paused') {
                 t = offsetEllapsedTime / 1000;
             }
 
@@ -32,31 +31,26 @@
     );
 
     let start = () => {
-        if (applicationState.value === 'started') {
+        if (applicationState === 'started') {
             return;
         }
-        animate(() => {
-            applicationState.update('started');
-            startTime = +new Date();
-        });
+        applicationState = 'started';
+        startTime = +new Date();
     };
 
     let pause = () => {
-        if (applicationState.value === 'paused') {
+        if (applicationState === 'paused') {
             return;
         }
-        animate(() => {
-            applicationState.update('paused');
-            offsetEllapsedTime = ellapsedTime;
-            startTime = 0;
-        });
+        applicationState = 'paused';
+        offsetEllapsedTime = ellapsedTime;
+        startTime = 0;
     };
     let clear = () => {
-        animate(() => {
-            applicationState.update('clear');
-            offsetEllapsedTime = 0;
-            startTime = 0;
-        });
+        step.next();
+        applicationState = 'paused';
+        offsetEllapsedTime = 0;
+        startTime = 0;
     };
 </script>
 
@@ -76,7 +70,7 @@
 
 <div class="flex justify-between pb-4 px-4">
     <button class="px-2 rounded variant-ringed" onclick={start}>
-        <span class={applicationState.value === 'started' ? 'animate-ping' : ''}>
+        <span class={applicationState === 'started' ? 'animate-ping' : ''}>
             <i class="mi-play"></i>
         </span> Start
     </button>

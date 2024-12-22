@@ -3,7 +3,7 @@
     import TimingBar from '$lib/components/TimingBar.svelte';
     import Subject from '$lib/components/Subject.svelte';
     import Menu from '$lib/components/Menu.svelte';
-    import { createApplicationState, createPoseDuration, createStep } from '$lib/store.svelte';
+    import { createStep } from '$lib/store.svelte';
     import { caf, raf } from '$lib/utils';
 
     let currentTheme = $state('portrait');
@@ -13,7 +13,7 @@
         step = createStep(() => currentTheme);
     })
 
-    let applicationState = createApplicationState(() => step);
+    let applicationState = $state('paused');
     let poseDuration = $state(60);
 
     let startTime = $state(0);
@@ -51,7 +51,7 @@
                 <Subject image={step.image} {applicationState} />
                 <TimingBar {poseDuration} {applicationState} {ellapsedTime} {offsetEllapsedTime} />
             </header>
-            <Chrono {applicationState} {step} {ellapsedTime} bind:offsetEllapsedTime={offsetEllapsedTime} bind:poseDuration={poseDuration} bind:startTime={startTime} />
+            <Chrono bind:applicationState={applicationState} {step} {ellapsedTime} bind:offsetEllapsedTime={offsetEllapsedTime} bind:poseDuration={poseDuration} bind:startTime={startTime} />
         </div>
     </div>
 {/if}
